@@ -20,7 +20,6 @@ return new class extends Migration
             $table->id('household_id');
             $table->integer('no_members')->default(0);
             $table->string('address')->nullable();
-            $table->integer('head')->nullable();
         });
 
 
@@ -47,6 +46,13 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female', 'not_specified'])->default('not_specified');
             $table->boolean('is_half_blooded')->default(false);
         });
+
+
+        Schema::create('household_head', function (Blueprint $table) {
+            $table->id('household_head_id');
+            $table->foreignId('household_id')->constrained('household', 'household_id')->onDelete('cascade');
+            $table->foreignId('individual_id')->constrained('individual')->onDelete('cascade');
+        });
     }
 
     /**
@@ -54,9 +60,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ip_group');
-        Schema::dropIfExists('household');
-        Schema::dropIfExists('family');
         Schema::dropIfExists('individual');
+        Schema::dropIfExists('family');
+        Schema::dropIfExists('household');
+        Schema::dropIfExists('ip_group');
+        Schema::dropIfExists('household_head');
     }
 };
