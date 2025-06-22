@@ -18,5 +18,8 @@ Route::middleware(['auth:web'])->group(function(){
     Route::get('/home', [Dashboard::class, 'index'])->name('home');
     Route::get('/census', [Census::class, 'index'])->name('census');
 
-    
+    Route::get('/generate_id', [Census::class, 'id_card'])->name('generate_id');
+
+    Route::post('/census/add_record', [Census::class, 'add_record'])->name('add_record');
+
 });
